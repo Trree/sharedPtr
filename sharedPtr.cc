@@ -13,8 +13,21 @@ private:
 
 public:
   sharedPtr(T *t) : t_(t), num_(1) {};
-  sharedPtr operator=(sharedPtr ptr) {
+  sharedPtr<T>(const sharedPtr<T>& ptr) : t_(ptr.t_) {
+    num_ = ptr.num_ + 1;
+  };
+  sharedPtr& operator=(const sharedPtr ptr) {
     num_++;
+  }
+  T* get() {
+    return t_;
+  }
+
+  T& operator*() {
+    return *t_;
+  }
+  T* operator->() {
+    return t_;
   }
 
   ~sharedPtr() {
@@ -31,6 +44,7 @@ int main()
   a[0] = 1;
   sharedPtr<int> ptr(a);
   sharedPtr<int> ptr1 = ptr;
+  sharedPtr<int> ptr2 = new int[5];
 
   return 0;
 }
